@@ -4,11 +4,10 @@
   "description": "Fabricator Builder: The core for building toolkits with the help of Webpack",
   "main": "index.js",
   "scripts": {
-    "prestart:default": "npm install",
-    "start:default": "webpack-dev-server --config ./test/webpack.config.default.js",
-    "pretest:default": "rimraf dist",
-    "test:default": "webpack --config ./test/webpack.config.default.js",
-    "test": "npm run test:default"
+    "start:default": "npm install && webpack-dev-server --config ./test/webpack.config.default.js",
+    "test:default": "rimraf dist && webpack --config ./test/webpack.config.default.js",
+    "test:favicon": "rimraf dist && webpack --config ./test/webpack.config.favicon.js",
+    "test": "npm run test:default && npm run test:favicon"
   },
   "repository": {
     "type": "git",
@@ -33,6 +32,7 @@
   "dependencies": {
     "jsdom": "9.12.0",
     "lodash": "4.17.4",
+    "rxjs": "5.4.0",
     "static-site-generator-webpack-plugin": "3.4.1",
     "webpack": "2.6.1"
   },
@@ -40,6 +40,7 @@
     "rimraf": "2.6.1"
   },
   "optionalDependencies": {
+    "favicons-webpack-plugin": "dietergeerts/favicons-webpack-plugin",
     "webpack-dev-server": "2.4.5"
   }
 }
