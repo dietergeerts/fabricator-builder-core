@@ -1,0 +1,29 @@
+{
+  "name": "@fabricator-builder/core",
+  "version": "1.0.0-0",
+  "description": "Fabricator Builder: The core for building toolkits with the help of Webpack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dietergeerts/fabricator-builder-core.git"
+  },
+  "keywords": [
+    "fabricator",
+    "fabricator",
+    "builder",
+    "toolkit",
+    "webpack"
+  ],
+  "author": "Dieter Geerts <dieter@dworks.be>",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/dietergeerts/fabricator-builder-core/issues"
+  },
+  "homepage": "https://github.com/dietergeerts/fabricator-builder-core#readme",
+  "directories": {
+    "test": "test"
+  }
+}
