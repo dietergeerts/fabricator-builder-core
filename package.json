@@ -4,6 +4,8 @@
   "description": "Fabricator Builder: The core for building toolkits with the help of Webpack",
   "main": "index.js",
   "scripts": {
+    "pretest:default": "rimraf dist",
+    "test:default": "webpack --config ./test/webpack.config.default.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,5 +27,14 @@
   "homepage": "https://github.com/dietergeerts/fabricator-builder-core#readme",
   "directories": {
     "test": "test"
+  },
+  "dependencies": {
+    "jsdom": "9.12.0",
+    "lodash": "4.17.4",
+    "static-site-generator-webpack-plugin": "3.4.1",
+    "webpack": "2.6.1"
+  },
+  "devDependencies": {
+    "rimraf": "2.6.1"
   }
 }
