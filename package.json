@@ -4,9 +4,11 @@
   "description": "Fabricator Builder: The core for building toolkits with the help of Webpack",
   "main": "index.js",
   "scripts": {
+    "prestart:default": "npm install",
+    "start:default": "webpack-dev-server --config ./test/webpack.config.default.js",
     "pretest:default": "rimraf dist",
     "test:default": "webpack --config ./test/webpack.config.default.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run test:default"
   },
   "repository": {
     "type": "git",
@@ -36,5 +38,8 @@
   },
   "devDependencies": {
     "rimraf": "2.6.1"
+  },
+  "optionalDependencies": {
+    "webpack-dev-server": "2.4.5"
   }
 }
