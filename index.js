@@ -11,13 +11,19 @@ module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
     options = assign({
         projectPath: __dirname,
         materialsDir: './test/fixtures/materials',
-        faviconsWebpackPlugin: null
+        faviconsWebpackPlugin: null,
+        webpackAssetsManifest: null
     }, options);
 
     const faviconsManifestRx = new Rx.ReplaySubject(1);
     options.faviconsWebpackPlugin
         ? options.faviconsWebpackPlugin.on('done', (manifest) => faviconsManifestRx.next(manifest))
         : faviconsManifestRx.next(null);
+
+    const assetsManifestRx = new Rx.ReplaySubject(1);
+    options.webpackAssetsManifest
+        ? options.webpackAssetsManifest.on('done', (manifest) => assetsManifestRx.next(manifest))
+        : assetsManifestRx.next(null);
 
     return {
         target: 'node',
@@ -59,7 +65,8 @@ module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
                 crawl: true, paths: [''],
                 globals: defaultJsDomView,
                 locals: {
-                    faviconsManifestRx: faviconsManifestRx
+                    faviconsManifestRx: faviconsManifestRx,
+                    assetsManifestRx: assetsManifestRx
                 }
             })
         ]

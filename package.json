@@ -6,9 +6,11 @@
   "scripts": {
     "start:default": "npm install && webpack-dev-server --config ./test/webpack.config.default.js",
     "start:favicon": "npm install && webpack-dev-server --config ./test/webpack.config.favicon.js",
+    "start:assets": "npm install && webpack-dev-server --config ./test/webpack.config.assets.js",
     "test:default": "rimraf dist && webpack --config ./test/webpack.config.default.js",
     "test:favicon": "rimraf dist && webpack --config ./test/webpack.config.favicon.js",
-    "test": "npm run test:default && npm run test:favicon"
+    "test:assets": "rimraf dist && webpack --config ./test/webpack.config.assets.js",
+    "test": "npm run test:default && npm run test:favicon && npm run test:assets"
   },
   "repository": {
     "type": "git",
@@ -48,6 +50,7 @@
   },
   "optionalDependencies": {
     "favicons-webpack-plugin": "dietergeerts/favicons-webpack-plugin",
+    "webpack-assets-manifest": "0.6.2",
     "webpack-dev-server": "2.4.5"
   }
 }

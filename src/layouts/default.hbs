@@ -4,11 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {{{FAVICON_HTML}}}
-  <link rel="stylesheet" href="{{baseurl}}{{FABRICATOR_STYLES}}">
+  <link rel="stylesheet" href="{{BASE_URL}}{{FABRICATOR_STYLES}}">
+  {{#each STYLES_ASSETS}}
+    <link rel="stylesheet" href="{{../BASE_URL}}{{this}}">
+  {{/each}}
 </head>
 <body>
 {{> ../partials/menu}}
 {{{VIEW}}}
 <script src="{{BASE_URL}}{{FABRICATOR_SCRIPT}}"></script>
+{{#each SCRIPT_ASSETS}}
+  <script src="{{../BASE_URL}}{{this}}"></script>
+{{/each}}
 </body>
 </html>
