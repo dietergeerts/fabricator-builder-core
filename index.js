@@ -10,6 +10,8 @@ module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
 
     options = assign({
         projectPath: __dirname,
+        outputPath: path.resolve(options.projectPath, './dist'),
+        outputPublicPath: '',
         materialsDir: './test/fixtures/materials',
         faviconsWebpackPlugin: null,
         webpackAssetsManifest: null
@@ -34,8 +36,9 @@ module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
         },
         output: {
             filename: '[name].[hash].js',
-            path: path.resolve(options.projectPath, './dist'),
-            publicPath: '', libraryTarget: 'umd'
+            path: options.outputPath,
+            publicPath: options.outputPublicPath,
+            libraryTarget: 'umd'
             // TODO: Check issues for multi-config dev-server support with multiple public paths:
             // Until this is fixed, dev server will not work, as the first public path is taken!
             // https://github.com/webpack/webpack-dev-server/issues/641
