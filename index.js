@@ -3,12 +3,14 @@ const assign = require('lodash/assign');
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const defaultJsDomView = require('jsdom').jsdom().defaultView;
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const webpack = require('webpack');
 const Rx = require('rxjs/Rx');
 
 module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
 
     options = assign({
         projectPath: __dirname,
+        materialsDir: './test/fixtures/materials',
         faviconsWebpackPlugin: null
     }, options);
 
@@ -49,6 +51,9 @@ module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
         },
         plugins: [
             new ExtractTextPlugin('[name].[hash].css'),
+            new webpack.DefinePlugin({
+                __MATERIALS_PATH__: JSON.stringify(path.resolve(options.projectPath, options.materialsDir))
+            }),
             new StaticSiteGeneratorPlugin({
                 entry: 'fabricator-builder',
                 crawl: true, paths: [''],

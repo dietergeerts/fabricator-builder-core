@@ -4,9 +4,14 @@
     <div data-f-menu-toggle="#f-materials-menu" title="Materials">Materials</div>
   </div>
   <div class="f-menu-sub" id="f-materials-menu">
-    MATERIALS MENU
-    <!--{{#each materialGroups}}-->
-    <!--<a href="{{../BASE_URL}}{{../MATERIALS_DIR}}/{{@key}}" title="{{@key}}">{{@key}}</a>-->
-    <!--{{/each}}-->
+    {{#each MATERIALS}}
+      <div class="f-menu-group">
+        <div>{{@key}}</div>
+        {{#each this}}
+          <div>{{this}}</div>
+        {{/each}}
+      </div>
+      <!--<a href="{{../BASE_URL}}{{../MATERIALS_DIR}}/{{@key}}" title="{{@key}}">{{@key}}</a>-->
+    {{/each}}
   </div>
 </div>

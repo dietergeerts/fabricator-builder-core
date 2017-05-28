@@ -1,5 +1,6 @@
 $white: #FFFFFF;
 $black: #000000;
+$spacer: 16px;
 
 .f-menu {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -10,11 +11,17 @@ $black: #000000;
   flex: 0 0 auto; display: flex; flex-wrap: wrap;
   background: $black; color: $white;
   > *.f-open { background: $white; color: $black; }
-  > * { text-transform: uppercase; padding: 4px 8px; cursor: pointer; }
+  > * { text-transform: uppercase; padding: $spacer/4 $spacer/2; cursor: pointer; }
 }
 
 .f-menu-sub {
-  &:not(.f-open) { display: none; }
-  background: $white; color: $black;
-  flex: 1 1 auto; display: block;
+  &:not(.f-open) { display: none; } overflow-y: auto;
+  flex: 1 1 auto; background: $white; color: $black; padding: $spacer $spacer 0;
+  display: flex; flex-direction: column; flex-wrap: wrap;
+}
+
+.f-menu-group {
+  margin-bottom: $spacer;
+  > *:first-child { text-transform: uppercase; margin-bottom: $spacer/2; }
+  > *:not(:first-child) { padding-left: $spacer*1.5; }
 }
