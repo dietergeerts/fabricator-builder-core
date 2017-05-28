@@ -11,7 +11,9 @@ module.exports = function render(locals) {
             const FAVICON_HTML = faviconsManifest && faviconsManifest.html.join('\n') || '';
 
             return require('./layouts/default.hbs')({
+                BASE_URL: BASE_URL,
                 FAVICON_HTML: FAVICON_HTML.replace(/href="/g, `href="${BASE_URL}`),
+                FABRICATOR_SCRIPT: locals.assets.fabricator,
                 VIEW: '<h1>TOOLKIT PAGE</h1>'
             });
         })

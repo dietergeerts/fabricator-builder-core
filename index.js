@@ -19,7 +19,10 @@ module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
     return {
         target: 'node',
         context: path.resolve(__dirname, './src'),
-        entry: {'fabricator-builder': './fabricator-builder.js'},
+        entry: {
+            'fabricator-builder': './fabricator-builder.js',
+            'fabricator': './fabricator.js'
+        },
         output: {
             filename: '[name].[hash].js',
             path: path.resolve(options.projectPath, './dist'),
@@ -34,8 +37,9 @@ module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
         },
         plugins: [
             new StaticSiteGeneratorPlugin({
-                crawl: true, paths: [''], 
-                globals: defaultJsDomView, 
+                entry: 'fabricator-builder',
+                crawl: true, paths: [''],
+                globals: defaultJsDomView,
                 locals: {
                     faviconsManifestRx: faviconsManifestRx
                 }
