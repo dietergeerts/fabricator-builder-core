@@ -3,6 +3,7 @@ const Rx = require('rxjs/Rx');
 const path = require('path');
 const fs = require('fs');
 
+const PACKAGE = require('project/package.json');
 const MATERIALS = mapDirs(__MATERIALS_PATH__, group => getDirs(path.join(__MATERIALS_PATH__, group)));
 
 module.exports = function render(locals) {
@@ -17,6 +18,7 @@ module.exports = function render(locals) {
             const FAVICON_HTML = faviconsManifest && faviconsManifest.html.join('\n') || '';
 
             return require('./layouts/default.hbs')({
+                PACKAGE: PACKAGE,
                 BASE_URL: BASE_URL,
                 FAVICON_HTML: FAVICON_HTML.replace(/href="/g, `href="${BASE_URL}`),
                 FABRICATOR_STYLES: locals.assets.fabricator.slice(0, -2) + 'css',

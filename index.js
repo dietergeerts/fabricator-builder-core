@@ -9,8 +9,8 @@ const Rx = require('rxjs/Rx');
 module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
 
     options = assign({
-        projectPath: __dirname,
-        outputPath: path.resolve(options.projectPath, './dist'),
+        projectPath: path.resolve(__dirname),
+        outputPath: path.resolve(__dirname, './dist'),
         outputPublicPath: '',
         materialsDir: './test/fixtures/materials',
         faviconsWebpackPlugin: null,
@@ -43,6 +43,11 @@ module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
             // Until this is fixed, dev server will not work, as the first public path is taken!
             // https://github.com/webpack/webpack-dev-server/issues/641
             // https://github.com/webpack/webpack-dev-middleware/pull/187
+        },
+        resolve: {
+            alias: {
+                project: options.projectPath
+            }
         },
         module: {
             rules: [
