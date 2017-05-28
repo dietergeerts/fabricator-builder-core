@@ -1,3 +1,5 @@
+import './fabricator.scss';
+
 initializeMenuToggles();
 
 function initializeMenuToggles() {
@@ -7,14 +9,15 @@ function initializeMenuToggles() {
         .forEach((menuToggle) => menuToggle.addEventListener('click', (event) => {
 
             event.stopPropagation();
-            const menu = document.getElementById(menuToggle.getAttribute('data-f-menu-toggle').slice(1));
+            const menuTarget = document.getElementById(menuToggle.getAttribute('data-f-menu-toggle').slice(1));
+
             addClass(menuToggle, 'f-open');
-            addClass(menu, 'f-open');
+            addClass(menuTarget, 'f-open');
             document.addEventListener('click', closeMenu);
 
             function closeMenu() {
                 removeClass(menuToggle, 'f-open');
-                removeClass(menu, 'f-open');
+                removeClass(menuTarget, 'f-open');
                 document.removeEventListener('click', closeMenu);
             }
         }));

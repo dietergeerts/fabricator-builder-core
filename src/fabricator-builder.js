@@ -14,6 +14,7 @@ module.exports = function render(locals) {
                 BASE_URL: BASE_URL,
                 FAVICON_HTML: FAVICON_HTML.replace(/href="/g, `href="${BASE_URL}`),
                 FABRICATOR_SCRIPT: locals.assets.fabricator,
+                FABRICATOR_STYLES: locals.assets.fabricator.slice(0, -2) + 'css',
                 VIEW: '<h1>TOOLKIT PAGE</h1>'
             });
         })

@@ -2,6 +2,7 @@ const path = require('path');
 const assign = require('lodash/assign');
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const defaultJsDomView = require('jsdom').jsdom().defaultView;
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const Rx = require('rxjs/Rx');
 
 module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
@@ -33,9 +34,21 @@ module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
             // https://github.com/webpack/webpack-dev-middleware/pull/187
         },
         module: {
-            rules: [{test: /\.hbs$/, loader: 'handlebars-loader'}]
+            rules: [
+                {test: /\.hbs$/, loader: 'handlebars-loader'},
+                {
+                    test: /\.scss$/,
+                    use: ExtractTextPlugin.extract({
+                        use: [
+                            {loader: 'css-loader'},
+                            {loader: 'sass-loader'}
+                        ]
+                    })
+                }
+            ]
         },
         plugins: [
+            new ExtractTextPlugin('[name].[hash].css'),
             new StaticSiteGeneratorPlugin({
                 entry: 'fabricator-builder',
                 crawl: true, paths: [''],
