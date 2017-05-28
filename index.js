@@ -14,7 +14,8 @@ module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
         outputPublicPath: '',
         materialsDir: './test/fixtures/materials',
         faviconsWebpackPlugin: null,
-        webpackAssetsManifest: null
+        webpackAssetsManifest: null,
+        getIndex: () => '<h1>INDEX FROM LOCALS</h1>'
     }, options);
 
     const faviconsManifestRx = new Rx.ReplaySubject(1);
@@ -44,23 +45,11 @@ module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
             // https://github.com/webpack/webpack-dev-server/issues/641
             // https://github.com/webpack/webpack-dev-middleware/pull/187
         },
-        resolve: {
-            alias: {
-                project: options.projectPath
-            }
-        },
+        resolve: {alias: {project: options.projectPath}},
         module: {
             rules: [
                 {test: /\.hbs$/, loader: 'handlebars-loader'},
-                {
-                    test: /\.scss$/,
-                    use: ExtractTextPlugin.extract({
-                        use: [
-                            {loader: 'css-loader'},
-                            {loader: 'sass-loader'}
-                        ]
-                    })
-                }
+                {test: /\.scss$/, use: ExtractTextPlugin.extract({use: ['css-loader', 'sass-loader']})}
             ]
         },
         plugins: [
@@ -74,7 +63,8 @@ module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
                 globals: defaultJsDomView,
                 locals: {
                     faviconsManifestRx: faviconsManifestRx,
-                    assetsManifestRx: assetsManifestRx
+                    assetsManifestRx: assetsManifestRx,
+                    getIndex: options.getIndex
                 }
             })
         ]
