@@ -13,6 +13,7 @@ module.exports = [
             path: path.resolve(__dirname, '../dist/assets'),
             publicPath: 'assets'
         },
+        devServer: {port: 3000},
         plugins: [faviconsWebpackPlugin]
     },
     fabricatorBuilderWebpackConfigCreator({

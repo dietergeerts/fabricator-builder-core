@@ -19,13 +19,19 @@ module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
     return {
         target: 'node',
         context: path.resolve(__dirname, './src'),
-        entry: {'fabricator-builder': './fabricator-builder.default.js'},
+        entry: {'fabricator-builder': './fabricator-builder.js'},
         output: {
             filename: '[name].[hash].js',
             path: path.resolve(options.projectPath, './dist'),
-            libraryTarget: 'umd'
+            publicPath: '', libraryTarget: 'umd'
+            // TODO: Check issues for multi-config dev-server support with multiple public paths:
+            // Until this is fixed, dev server will not work, as the first public path is taken!
+            // https://github.com/webpack/webpack-dev-server/issues/641
+            // https://github.com/webpack/webpack-dev-middleware/pull/187
         },
-        devServer: {port: 3000},
+        module: {
+            rules: [{test: /\.hbs$/, loader: 'handlebars-loader'}]
+        },
         plugins: [
             new StaticSiteGeneratorPlugin({
                 crawl: true, paths: [''], 

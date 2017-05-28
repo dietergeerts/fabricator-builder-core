@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start:default": "npm install && webpack-dev-server --config ./test/webpack.config.default.js",
+    "start:favicon": "npm install && webpack-dev-server --config ./test/webpack.config.favicon.js",
     "test:default": "rimraf dist && webpack --config ./test/webpack.config.default.js",
     "test:favicon": "rimraf dist && webpack --config ./test/webpack.config.favicon.js",
     "test": "npm run test:default && npm run test:favicon"
@@ -30,6 +31,8 @@
     "test": "test"
   },
   "dependencies": {
+    "handlebars": "4.0.10",
+    "handlebars-loader": "1.5.0",
     "jsdom": "9.12.0",
     "lodash": "4.17.4",
     "rxjs": "5.4.0",
