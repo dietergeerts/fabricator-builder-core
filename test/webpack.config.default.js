@@ -2,6 +2,15 @@ const fabricatorBuilderWebpackConfigCreator = require('../index');
 const path = require('path');
 
 module.exports = [
-    {devServer: {port: 3000}},
+    {
+        context: path.resolve(__dirname, './'),
+        entry: {toolkit: './fixtures/entry.js'},
+        output: {
+            filename: '[name].[hash].js',
+            path: path.resolve(__dirname, '../dist/assets'),
+            publicPath: 'assets'
+        },
+        devServer: {port: 3000}
+    },
     fabricatorBuilderWebpackConfigCreator()
 ];

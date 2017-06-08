@@ -6,12 +6,12 @@
   <div class="f-menu-sub" id="f-materials-menu">
     {{#each MATERIALS}}
       <div class="f-menu-group">
-        <div>{{@key}}</div>
+        <a href="{{../BASE_URL}}materials/{{@key}}/" title="{{@key}}">{{@key}}</a>
         {{#each this}}
-          <div>{{this}}</div>
+          <div>{{.}}</div>
+          <!--TODO: Add link to #id part of page, once https://github.com/markdalgleish/static-site-generator-webpack-plugin/issues/109 is resolved-->
         {{/each}}
       </div>
-      <!--<a href="{{../BASE_URL}}{{../MATERIALS_DIR}}/{{@key}}" title="{{@key}}">{{@key}}</a>-->
     {{/each}}
   </div>
 </div>

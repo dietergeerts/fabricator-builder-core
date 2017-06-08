@@ -1,9 +1,9 @@
 const assign = require('lodash/assign');
+const get = require('lodash/get');
 const Rx = require('rxjs/Rx');
 const path = require('path');
 const fs = require('fs');
 
-const PACKAGE = require('project/package.json');
 const MATERIALS = mapDirs(__MATERIALS_PATH__, group => getDirs(path.join(__MATERIALS_PATH__, group)));
 const PAGE_TYPE = {
     INDEX: 'INDEX',
@@ -24,24 +24,26 @@ module.exports = function render(locals) {
             locals.assetsManifestRx.first(),
             (faviconsManifest, assetsManifest) => {
 
-            const FAVICON_HTML = faviconsManifest && faviconsManifest.html.join('\n') || '';
+                const FAVICON_HTML = faviconsManifest && faviconsManifest.html.join('\n') || '';
 
-            return require('./layouts/default.hbs')({
-                PACKAGE: PACKAGE,
-                BASE_URL: BASE_URL,
-                FAVICON_HTML: FAVICON_HTML.replace(/href="/g, `href="${BASE_URL}`),
-                FABRICATOR_STYLES: locals.assets.fabricator.slice(0, -2) + 'css',
-                FABRICATOR_SCRIPT: locals.assets.fabricator,
-                STYLES_ASSETS: getAssetsFromWithType(assetsManifest.assets, '.css'),
-                SCRIPT_ASSETS: getAssetsFromWithType(assetsManifest.assets, '.js'),
-                MATERIALS: MATERIALS,
-                VIEW: {
-                    [PAGE_TYPE.INDEX]: locals.getIndex(),
-                    [PAGE_TYPE.MATERIALS]: '<h1>MATERIALS PAGE</h1>',
-                    [PAGE_TYPE.TEMPLATE]: '<h1>TEMPLATE PAGE</h1>'
-                }[PAGE_TYPE.for(locals.path)]
-            });
-        })
+                return require('./layouts/default.hbs')({
+                    PACKAGE: require('project/package.json'),
+                    BASE_URL: BASE_URL,
+                    FAVICON_HTML: FAVICON_HTML.replace(/href="/g, `href="${BASE_URL}`),
+                    FABRICATOR_STYLES: locals.assets.fabricator.slice(0, -2) + 'css',
+                    FABRICATOR_SCRIPT: locals.assets.fabricator,
+                    STYLES_ASSETS: getAssetsFromWithType(get(assetsManifest, 'assets', {}), '.css'),
+                    SCRIPT_ASSETS: getAssetsFromWithType(get(assetsManifest, 'assets', {}), '.js'),
+                    MATERIALS: MATERIALS,
+                    VIEW: {
+                        [PAGE_TYPE.INDEX]: locals.getIndex(),
+                        [PAGE_TYPE.MATERIALS]: require('./views/materials.hbs')({
+                            MATERIAL_GROUP: locals.path.split('/')[1]
+                        }),
+                        [PAGE_TYPE.TEMPLATE]: '<h1>TEMPLATE PAGE</h1>'
+                    }[PAGE_TYPE.for(locals.path)]
+                });
+            })
         .toPromise();
 };
 
@@ -50,7 +52,10 @@ function getAssetsFromWithType(assets, type) {
 }
 
 function mapDirs(path, map) {
-    return getDirs(path).reduce((result, dir) => { result[dir] = map(dir); return result; }, {});
+    return getDirs(path).reduce((result, dir) => {
+        result[dir] = map(dir);
+        return result;
+    }, {});
 }
 
 function getDirs(dir) {

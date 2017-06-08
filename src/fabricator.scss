@@ -25,3 +25,10 @@ $spacer: 16px;
   > *:first-child { text-transform: uppercase; margin-bottom: $spacer/2; }
   > *:not(:first-child) { padding-left: $spacer*1.5; }
 }
+
+.f-body { margin: 0; }
+
+.f-view-header {
+  text-transform: uppercase; font-size: 1.75rem;
+  margin: $spacer*2.5 $spacer/2 $spacer; color: $black;
+}
