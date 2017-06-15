@@ -1,23 +1,26 @@
 $white: #FFFFFF;
-$black: #000000;
+$black: #181830;
+$yellow: #E7AD00;
+$font: sans-serif;
 $spacer: 16px;
 
 .f-menu {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
   display: flex; flex-direction: column; z-index: 2000;
+  font-family: $font;
 }
 
 .f-menu-top {
   flex: 0 0 auto; display: flex; flex-wrap: wrap;
   background: $black; color: $white;
-  > *.f-open { background: $white; color: $black; }
-  > * { text-transform: uppercase; padding: $spacer/4 $spacer/2; cursor: pointer; }
+  > *.f-open { background: $yellow; color: $black; }
+  > * { text-transform: capitalize; padding: $spacer/2 $spacer; cursor: pointer; }
 }
 
 .f-menu-sub {
   &:not(.f-open) { display: none; } overflow-y: auto;
-  flex: 1 1 auto; background: $white; color: $black; padding: $spacer $spacer 0;
-  display: flex; flex-direction: column; flex-wrap: wrap;
+  flex: 1 1 auto; background: $white; color: $black; padding: $spacer*2 $spacer 0;
+  display: flex; flex-direction: column; flex-wrap: wrap; border-top: 4px solid $yellow;
 }
 
 .f-menu-group {
@@ -29,6 +32,9 @@ $spacer: 16px;
 .f-body { margin: 0; }
 
 .f-view-header {
-  text-transform: uppercase; font-size: 1.75rem;
-  margin: $spacer*2.5 $spacer/2 $spacer; color: $black;
+  font-size: 3rem; font-family: $font; font-weight: 500;
+  padding: $spacer*3 $spacer $spacer*2 $spacer; color: $white;
+  background: $yellow; border-bottom: 8px solid $black;
+  div:nth-child(2) { font-size: 0.35em; font-weight: 400; }
+  &:first-letter { text-transform: uppercase; }
 }

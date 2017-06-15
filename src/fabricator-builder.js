@@ -25,9 +25,10 @@ module.exports = function render(locals) {
             (faviconsManifest, assetsManifest) => {
 
                 const FAVICON_HTML = faviconsManifest && faviconsManifest.html.join('\n') || '';
+                const PACKAGE = require('project/package.json');
 
                 return require('./layouts/default.hbs')({
-                    PACKAGE: require('project/package.json'),
+                    PACKAGE: PACKAGE,
                     BASE_URL: BASE_URL,
                     FAVICON_HTML: FAVICON_HTML.replace(/href="/g, `href="${BASE_URL}`),
                     FABRICATOR_STYLES: locals.assets.fabricator.slice(0, -2) + 'css',
@@ -36,7 +37,10 @@ module.exports = function render(locals) {
                     SCRIPT_ASSETS: getAssetsFromWithType(get(assetsManifest, 'assets', {}), '.js'),
                     MATERIALS: MATERIALS,
                     VIEW: {
-                        [PAGE_TYPE.INDEX]: locals.getIndex(),
+                        [PAGE_TYPE.INDEX]: require('./views/index.hbs')({
+                            PACKAGE: PACKAGE,
+                            VIEW: locals.getIndex()
+                        }),
                         [PAGE_TYPE.MATERIALS]: require('./views/materials.hbs')({
                             MATERIAL_GROUP: locals.path.split('/')[1]
                         }),
