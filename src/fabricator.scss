@@ -1,26 +1,50 @@
 $white: #FFFFFF;
+$gray: #F0F0F0;
 $black: #181830;
 $yellow: #E7AD00;
+
+$spacer: 1rem;
 $font: sans-serif;
-$spacer: 16px;
+$font-base: 16px;
+$reading-width: 35rem + $spacer*2;
+
+@mixin f-title($h) {
+  font-weight: 500;
+  @if $h == 1 { font-size: 3rem; }
+  @if $h == 2 { font-size: 1.75rem; }
+  &:first-letter { text-transform: uppercase; }
+}
+
+@mixin f-content($spacer-top: $spacer, $spacer-bottom: $spacer) {
+  padding: $spacer-top $spacer $spacer-bottom; max-width: $reading-width;
+}
+
+.f-style { font-family: $font; font-size: $font-base; font-weight: normal; color: $black; }
+
+.f-band-full { @media(min-width: $reading-width) { padding-left: calc((100% - #{$reading-width}) * 0.3); } }
+.f-band-half { @media(min-width: $reading-width) { margin-left: calc((100% - #{$reading-width}) * 0.3); } }
+
+.f-white { background: $white; }
+.f-gray { background: $gray; }
+.f-black { background: $black; color: $white; }
+.f-yellow { background: $yellow; color: $white; }
 
 .f-menu {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
   display: flex; flex-direction: column; z-index: 2000;
-  font-family: $font;
 }
 
 .f-menu-top {
   flex: 0 0 auto; display: flex; flex-wrap: wrap;
-  background: $black; color: $white;
   > *.f-open { background: $yellow; color: $black; }
-  > * { text-transform: capitalize; padding: $spacer/2 $spacer; cursor: pointer; }
+  > * { text-transform: capitalize; @include f-content($spacer/2, $spacer/2); cursor: pointer; }
 }
 
 .f-menu-sub {
-  &:not(.f-open) { display: none; } overflow-y: auto;
-  flex: 1 1 auto; background: $white; color: $black; padding: $spacer*2 $spacer 0;
-  display: flex; flex-direction: column; flex-wrap: wrap; border-top: 4px solid $yellow;
+  &:not(.f-open) { display: none; }
+  overflow-y: auto; flex: 1 1 auto; padding: $spacer*2 $spacer 0;
+  background: $white; color: $black; border-top: 4px solid $yellow;
+  display: flex; flex-direction: column; flex-wrap: wrap;
 }
 
 .f-menu-group {
@@ -32,9 +56,10 @@ $spacer: 16px;
 .f-body { margin: 0; }
 
 .f-view-header {
-  font-size: 3rem; font-family: $font; font-weight: 500;
-  padding: $spacer*3 $spacer $spacer*2 $spacer; color: $white;
-  background: $yellow; border-bottom: 8px solid $black;
+  @include f-title(1); @include f-content($spacer*3.75, $spacer*3);
   div:nth-child(2) { font-size: 0.35em; font-weight: 400; }
-  &:first-letter { text-transform: uppercase; }
 }
+
+.f-material-header { @include f-title(2); @include f-content($spacer*3.75, $spacer/2); }
+
+.f-material-docs { @include f-content(); }

@@ -1,4 +1,4 @@
-<div class="f-view-header">
-  <div>{{MATERIAL_GROUP}}</div>
-  <div>Materials group</div>
-</div>
+{{> ../partials/header header=MATERIAL_GROUP subHeader='Materials group'}}
+{{#each MATERIALS}}
+  {{> ../partials/material.hbs}}
+{{/each}}

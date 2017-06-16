@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 
 const MATERIALS = mapDirs(__MATERIALS_PATH__, group => getDirs(path.join(__MATERIALS_PATH__, group)));
+
 const PAGE_TYPE = {
     INDEX: 'INDEX',
     MATERIALS: 'MATERIALS',
@@ -16,43 +17,64 @@ const PAGE_TYPE = {
 };
 
 module.exports = function render(locals) {
-
-    const BASE_URL = `${'../'.repeat(locals.path.split('/').length - 1)}`;
-
     return locals.faviconsManifestRx.first()
-        .combineLatest(
-            locals.assetsManifestRx.first(),
-            (faviconsManifest, assetsManifest) => {
-
-                const FAVICON_HTML = faviconsManifest && faviconsManifest.html.join('\n') || '';
-                const PACKAGE = require('project/package.json');
-
-                return require('./layouts/default.hbs')({
-                    PACKAGE: PACKAGE,
-                    BASE_URL: BASE_URL,
-                    FAVICON_HTML: FAVICON_HTML.replace(/href="/g, `href="${BASE_URL}`),
-                    FABRICATOR_STYLES: locals.assets.fabricator.slice(0, -2) + 'css',
-                    FABRICATOR_SCRIPT: locals.assets.fabricator,
-                    STYLES_ASSETS: getAssetsFromWithType(get(assetsManifest, 'assets', {}), '.css'),
-                    SCRIPT_ASSETS: getAssetsFromWithType(get(assetsManifest, 'assets', {}), '.js'),
-                    MATERIALS: MATERIALS,
-                    VIEW: {
-                        [PAGE_TYPE.INDEX]: require('./views/index.hbs')({
-                            PACKAGE: PACKAGE,
-                            VIEW: locals.getIndex()
-                        }),
-                        [PAGE_TYPE.MATERIALS]: require('./views/materials.hbs')({
-                            MATERIAL_GROUP: locals.path.split('/')[1]
-                        }),
-                        [PAGE_TYPE.TEMPLATE]: '<h1>TEMPLATE PAGE</h1>'
-                    }[PAGE_TYPE.for(locals.path)]
-                });
-            })
+        .combineLatest(locals.assetsManifestRx.first())
+        .map(([faviconsManifest, assetsManifest]) =>
+            renderLayout(collectData(locals, faviconsManifest, assetsManifest), locals))
         .toPromise();
 };
 
+function collectData(locals, faviconsManifest, assetsManifest) {
+    const BASE_URL = `${'../'.repeat(locals.path.split('/').length - 1)}`;
+    const FAVICONS = faviconsManifest && faviconsManifest.html.join('\n') || '';
+
+    return {
+        PACKAGE: require('project/package.json'),
+        BASE_URL: BASE_URL,
+        FAVICON_HTML: FAVICONS.replace(/href="/g, `href="${BASE_URL}`),
+        FABRICATOR_STYLES: locals.assets.fabricator.slice(0, -2) + 'css',
+        FABRICATOR_SCRIPT: locals.assets.fabricator,
+        STYLES_ASSETS: getAssetsFromWithType(get(assetsManifest, 'assets', {}), '.css'),
+        SCRIPT_ASSETS: getAssetsFromWithType(get(assetsManifest, 'assets', {}), '.js'),
+        MATERIALS: MATERIALS,
+    };
+}
+
+function renderLayout(DATA, locals) {
+    return require('./layouts/default.hbs')(Object.assign({}, DATA, {VIEW: renderView(DATA, locals)}));
+}
+
+function renderView(DATA, locals) {
+    return {
+        [PAGE_TYPE.INDEX]: renderIndexView,
+        [PAGE_TYPE.MATERIALS]: renderMaterialsView,
+        [PAGE_TYPE.TEMPLATE]: renderTemplateView,
+    }[PAGE_TYPE.for(locals.path)](DATA, locals)
+}
+
+function renderIndexView(DATA, locals) {
+    return require('./views/index.hbs')(Object.assign({}, DATA, {VIEW: locals.getIndex()}));
+}
+
+function renderMaterialsView(DATA, locals) {
+    const MATERIAL_GROUP = locals.path.split('/')[1];
+
+    return require('./views/materials.hbs')(Object.assign({}, DATA, {
+        MATERIAL_GROUP: MATERIAL_GROUP,
+        MATERIALS: MATERIALS[MATERIAL_GROUP].map(locals.getMaterial.bind(null, MATERIAL_GROUP)),
+    }));
+}
+
+function renderTemplateView(DATA, locals) {
+    return '<h1>TEMPLATE PAGE</h1>';
+}
+
 function getAssetsFromWithType(assets, type) {
     return Object.keys(assets).filter((key) => key.endsWith(type)).map((key) => assets[key]);
+}
+
+function getDirs(dir) {
+    return fs.readdirSync(dir).filter(file => fs.statSync(path.join(dir, file)).isDirectory());
 }
 
 function mapDirs(path, map) {
@@ -60,8 +82,4 @@ function mapDirs(path, map) {
         result[dir] = map(dir);
         return result;
     }, {});
-}
-
-function getDirs(dir) {
-    return fs.readdirSync(dir).filter(file => fs.statSync(path.join(dir, file)).isDirectory());
 }

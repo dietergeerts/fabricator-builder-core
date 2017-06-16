@@ -15,7 +15,8 @@ module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
         materialsDir: './test/fixtures/materials',
         faviconsWebpackPlugin: null,
         webpackAssetsManifest: null,
-        getIndex: () => '<div>INDEX FROM LOCALS</div>'
+        getIndex: () => '<div>INDEX FROM LOCALS</div>',
+        getMaterial: (materialGroup, materialName) => ({header: materialName}),
     }, options);
 
     const faviconsManifestRx = new Rx.ReplaySubject(1);
@@ -64,7 +65,8 @@ module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
                 locals: {
                     faviconsManifestRx: faviconsManifestRx,
                     assetsManifestRx: assetsManifestRx,
-                    getIndex: options.getIndex
+                    getIndex: options.getIndex,
+                    getMaterial: options.getMaterial,
                 }
             })
         ]
