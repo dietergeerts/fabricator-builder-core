@@ -1,5 +1,5 @@
 $white: #FFFFFF;
-$gray: #F0F0F0;
+$gray: #E6E6E6;
 $black: #181830;
 $yellow: #E7AD00;
 
@@ -30,20 +30,21 @@ $reading-width: 35rem + $spacer*2;
 .f-yellow { background: $yellow; color: $white; }
 
 .f-menu {
-  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  position: fixed; top: 0; left: 0; right: 0; max-height: 100%;
   display: flex; flex-direction: column; z-index: 2000;
 }
 
 .f-menu-top {
-  flex: 0 0 auto; display: flex; flex-wrap: wrap;
+  flex: none; display: flex; flex-wrap: wrap;
   > *.f-open { background: $yellow; color: $black; }
   > * { text-transform: capitalize; @include f-content($spacer/2, $spacer/2); cursor: pointer; }
 }
 
 .f-menu-sub {
   &:not(.f-open) { display: none; }
-  overflow-y: auto; flex: 1 1 auto; padding: $spacer*2 $spacer 0;
+  overflow-y: auto; flex: auto; padding: $spacer*2 $spacer 0;
   background: $white; color: $black; border-top: 4px solid $yellow;
+  box-shadow: 0 0 8px 0 $black;
   display: flex; flex-direction: column; flex-wrap: wrap;
 }
 
@@ -62,4 +63,17 @@ $reading-width: 35rem + $spacer*2;
 
 .f-material-header { @include f-title(2); @include f-content($spacer*3.75, $spacer/2); }
 
-.f-material-docs { @include f-content(); }
+.f-material-notes { @include f-content(); & > * { margin: 0; & + * { margin-top: $spacer/2; } } }
+
+.f-material-preview { @include f-content(); }
+
+.f-material-sources-filenames {
+  display: flex; flex-wrap: wrap;
+  > *.f-open { color: $yellow; }
+  > * { @include f-content($spacer/2, $spacer/2); cursor: pointer; }
+}
+
+.f-material-sources-contents {
+  border-left: 2px solid $yellow;
+  > * { &:not(.f-open) { display: none; } @include f-content(); > * { margin: 0; } }
+}

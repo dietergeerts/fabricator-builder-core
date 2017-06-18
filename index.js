@@ -16,7 +16,16 @@ module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
         faviconsWebpackPlugin: null,
         webpackAssetsManifest: null,
         getIndex: () => '<div>INDEX FROM LOCALS</div>',
-        getMaterial: (materialGroup, materialName) => ({header: materialName}),
+        getMaterial: (materialGroup, materialName) => ({
+            NAME: materialName,
+            header: materialName,
+            notes: '<p>Material notes</p>',
+            preview: '<div>Material preview</div>',
+            sources: [
+                {filename: 'html', contents: '<div><span><a>material template</a></span></div>'},
+                {filename: 'js', contents: 'export const materialComponent = {templateUrl: \'./.html\'};'},
+            ],
+        }),
     }, options);
 
     const faviconsManifestRx = new Rx.ReplaySubject(1);

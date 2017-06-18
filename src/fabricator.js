@@ -1,24 +1,28 @@
 import './fabricator.scss';
 
-initializeMenuToggles();
+initializeToggles('data-f-menu-toggle');
+initializeToggles('data-f-code-toggle');
 
-function initializeMenuToggles() {
+function initializeToggles(toggleSelector) {
 
     document
-        .querySelectorAll('[data-f-menu-toggle]')
-        .forEach((menuToggle) => menuToggle.addEventListener('click', (event) => {
+        .querySelectorAll(`[${toggleSelector}]`)
+        .forEach((toggle) => toggle.addEventListener('click', (event) => {
+
+            // The following is needed, because the previous will otherwise not be hidden!
+            document.getElementsByTagName('body')[0].click();
 
             event.stopPropagation();
-            const menuTarget = document.getElementById(menuToggle.getAttribute('data-f-menu-toggle').slice(1));
+            const target = document.getElementById(toggle.getAttribute(toggleSelector).slice(1));
 
-            addClass(menuToggle, 'f-open');
-            addClass(menuTarget, 'f-open');
-            document.addEventListener('click', closeMenu);
+            addClass(toggle, 'f-open');
+            addClass(target, 'f-open');
+            document.addEventListener('click', hideTarget);
 
-            function closeMenu() {
-                removeClass(menuToggle, 'f-open');
-                removeClass(menuTarget, 'f-open');
-                document.removeEventListener('click', closeMenu);
+            function hideTarget() {
+                removeClass(toggle, 'f-open');
+                removeClass(target, 'f-open');
+                document.removeEventListener('click', hideTarget);
             }
         }));
 }

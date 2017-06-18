@@ -3,6 +3,27 @@
     <div class="f-material-header">{{header}}</div>
   </div>
   <div class="f-band-half f-gray">
-    <div class="f-material-docs">Material documentation</div>
+    <div class="f-material-notes">{{{notes}}}</div>
+  </div>
+</div>
+<div class="f-band-full">
+  <div class="f-material-preview">{{{preview}}}</div>
+</div>
+<div class="f-style">
+  <div class="f-band-half f-gray">
+    <div class="f-material-sources-filenames">
+      {{#each sources}}
+        <div data-f-code-toggle="#{{../NAME}}-{{filename}}">
+          {{filename}}
+        </div>
+      {{/each}}
+    </div>
+    <div class="f-material-sources-contents">
+      {{#each sources}}
+        <div id="{{../NAME}}-{{filename}}">
+          <pre><code>{{contents}}</code></pre>
+        </div>
+      {{/each}}
+    </div>
   </div>
 </div>
