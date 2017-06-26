@@ -10,7 +10,7 @@
     "test:default": "rimraf dist && webpack --config ./test/webpack.config.default.js",
     "test:favicon": "rimraf dist && webpack --config ./test/webpack.config.favicon.js",
     "test:assets": "rimraf dist && webpack --config ./test/webpack.config.assets.js",
-    "test": "npm run test:default && npm run test:favicon && npm run test:assets"
+    "test": "mocha src/**/*.test.js"
   },
   "repository": {
     "type": "git",
@@ -46,6 +46,9 @@
     "webpack": "2.6.1"
   },
   "devDependencies": {
+    "chai": "^4.0.2",
+    "chai-as-promised": "^7.0.0",
+    "mocha": "^3.4.2",
     "rimraf": "2.6.1"
   },
   "optionalDependencies": {
