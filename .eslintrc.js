@@ -1,9 +1,7 @@
 module.exports = {
-    'root': true,
-    'env': {
-        'es6': true,
-    },
-    'plugins': [
+    root: true,
+    env: {es6: true},
+    plugins: [
         'filenames',
         'fp',
         'lodash-fp',
@@ -11,58 +9,57 @@ module.exports = {
         'optimize-regex',
         'unicorn',
     ],
-    'extends': [
+    extends: [
         'eslint:recommended',
         'plugin:fp/recommended',
         'plugin:lodash-fp/recommended',
         'plugin:unicorn/recommended',
     ],
-    'rules': {
+    rules: {
         'no-use-extend-native/no-use-extend-native': 2,
         'optimize-regex/optimize-regex': 1,
     },
-    'overrides': [
+    overrides: [
         {
-            'files': ['./src/**/*.js'],
-            'rules': {
+            files: ['src/**/*.js'],
+            rules: {
                 'filenames/no-index': 2,
             },
         },
         {
-            'files': ['./src/**/*.js'],
-            'excludedFiles': './src/**/*.test.js',
-            'rules': {
+            files: ['src/**/*.js'],
+            excludedFiles: 'src/**/*.test.js',
+            rules: {
                 'filenames/match-exported': [2, 'kebab'],
             },
         },
         {
-            'files': ['./src/**/*.test.js'],
-            'env': {
-                'mocha': true,
-            },
-            'plugins': [
+            files: ['src/**/*.test.js'],
+            env: {mocha: true},
+            plugins: [
                 'chai-expect',
                 'mocha',
             ],
-            'rules': {
+            rules: {
                 'chai-expect/missing-assertion': 2,
                 'chai-expect/no-inner-compare': 2,
                 'chai-expect/terminating-properties': 1,
-                'filenames/match-regex': [2, '^.+\.test\.js$'],
+                'filenames/match-regex': [2, '^[a-z-]+.test$'],
+                'fp/no-nil': 0,
+                'fp/no-unused-expression': 0,
                 'mocha/no-exclusive-tests': 2,
             },
         },
         {
-            'files': ['./src/fabricator/**/*.js'],
-            'env': {
-                'browser': true,
-            },
+            files: ['src/fabricator/**/*.js'],
+            env: {browser: true},
         },
         {
-            'files': ['./src/fabricator-builder/**/*.js', './*.js'],
-            'env': {
-                'node': true,
-            },
+            files: ['src/fabricator-builder/**/*.js', '*.js'],
+            env: {node: true},
+            rules: {
+                'fp/no-mutation': ['error', {'commonjs': true}],
+            }
         },
     ],
 };
