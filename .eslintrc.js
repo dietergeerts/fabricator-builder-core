@@ -30,7 +30,7 @@ module.exports = {
         },
         {
             'files': ['./src/**/*.js'],
-            'excludeFiles': './src/**/*.test.js',
+            'excludedFiles': './src/**/*.test.js',
             'rules': {
                 'filenames/match-exported': [2, 'kebab'],
             },
