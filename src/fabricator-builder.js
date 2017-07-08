@@ -1,3 +1,5 @@
+const extractBaseUrl = require('./fabricator-builder/extract-base-url');
+
 const assign = require('lodash/assign');
 const get = require('lodash/get');
 const Rx = require('rxjs/Rx');
@@ -25,7 +27,7 @@ module.exports = function render(locals) {
 };
 
 function collectData(locals, faviconsManifest, assetsManifest) {
-    const BASE_URL = `${'../'.repeat(locals.path.split('/').length - 1)}`;
+    const BASE_URL = extractBaseUrl(locals.path);
     const FAVICONS = faviconsManifest && faviconsManifest.html.join('\n') || '';
 
     return {

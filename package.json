@@ -10,7 +10,7 @@
     "test:default": "rimraf dist && webpack --config ./test/webpack.config.default.js",
     "test:favicon": "rimraf dist && webpack --config ./test/webpack.config.favicon.js",
     "test:assets": "rimraf dist && webpack --config ./test/webpack.config.assets.js",
-    "test": "concurrently \"npm run test:unit\" \"npm run lint\"",
+    "test": "npm run test:unit",
     "test:unit": "mocha src/**/*.test.js",
     "lint": "eslint --ignore-path .gitignore ./"
   },
@@ -33,6 +33,10 @@
   "homepage": "https://github.com/dietergeerts/fabricator-builder-core#readme",
   "directories": {
     "test": "test"
+  },
+  "engines": {
+    "node": ">=4",
+    "npm": ">=3"
   },
   "dependencies": {
     "css-loader": "0.28.3",

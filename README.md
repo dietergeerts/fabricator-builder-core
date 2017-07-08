@@ -1,4 +1,5 @@
-# fabricator-builder-core
+# Fabricator Builder - Core
+
 The core for building toolkits with the help of Webpack
 
 ## TODO
