@@ -1,5 +1,8 @@
 # Fabricator Builder - Core
 
+[![Build Status](https://travis-ci.org/dietergeerts/fabricator-builder-core.svg?branch=master)](https://travis-ci.org/dietergeerts/fabricator-builder-core)
+[![Coverage Status](https://coveralls.io/repos/github/dietergeerts/fabricator-builder-core/badge.svg?branch=master)](https://coveralls.io/github/dietergeerts/fabricator-builder-core?branch=master)
+
 The core for building toolkits with the help of Webpack
 
 ## TODO
