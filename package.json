@@ -2,7 +2,7 @@
   "name": "@fabricator-builder/core",
   "version": "1.0.0-0",
   "description": "Fabricator Builder: The core for building toolkits with the help of Webpack",
-  "main": "index.js",
+  "main": "./src/fabricator-builder/create-config.js",
   "scripts": {
     "start:default": "npm install && webpack-dev-server --config ./test/webpack.config.default.js",
     "start:favicon": "npm install && webpack-dev-server --config ./test/webpack.config.favicon.js",
@@ -63,7 +63,6 @@
     "eslint-plugin-lodash-fp": "2.1.3",
     "eslint-plugin-mocha": "4.11.0",
     "eslint-plugin-no-use-extend-native": "0.3.12",
-    "eslint-plugin-optimize-regex": "1.1.2",
     "eslint-plugin-unicorn": "2.1.2",
     "mocha": "3.4.2",
     "mocha-lcov-reporter": "1.3.0",

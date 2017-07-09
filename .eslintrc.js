@@ -6,7 +6,6 @@ module.exports = {
         'fp',
         'lodash-fp',
         'no-use-extend-native',
-        'optimize-regex',
         'unicorn',
     ],
     extends: [
@@ -16,16 +15,13 @@ module.exports = {
         'plugin:unicorn/recommended',
     ],
     rules: {
+        'comma-dangle': ["error", "always-multiline"],
+        'fp/no-nil': 0,
+        'fp/no-throw': 0,
+        'fp/no-unused-expression': 0,
         'no-use-extend-native/no-use-extend-native': 2,
-        'optimize-regex/optimize-regex': 1,
     },
     overrides: [
-        {
-            files: ['src/**/*.js'],
-            rules: {
-                'filenames/no-index': 2,
-            },
-        },
         {
             files: ['src/**/*.js'],
             excludedFiles: 'src/**/*.test.js',
@@ -45,8 +41,6 @@ module.exports = {
                 'chai-expect/no-inner-compare': 2,
                 'chai-expect/terminating-properties': 1,
                 'filenames/match-regex': [2, '^[a-z-]+.test$'],
-                'fp/no-nil': 0,
-                'fp/no-unused-expression': 0,
                 'mocha/no-exclusive-tests': 2,
             },
         },
@@ -55,7 +49,7 @@ module.exports = {
             env: {browser: true},
         },
         {
-            files: ['src/fabricator-builder/**/*.js', '*.js'],
+            files: ['src/fabricator-builder/**/*.js'],
             env: {node: true},
             rules: {
                 'fp/no-mutation': ['error', {'commonjs': true}],

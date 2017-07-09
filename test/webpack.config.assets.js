@@ -1,4 +1,4 @@
-const fabricatorBuilderWebpackConfigCreator = require('../index');
+const fabricatorBuilderWebpackConfigCreator = require('../src/fabricator-builder/create-config');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const path = require('path');

@@ -1,4 +1,4 @@
-const fabricatorBuilderWebpackConfigCreator = require('../index');
+const fabricatorBuilderWebpackConfigCreator = require('../src/fabricator-builder/create-config');
 const path = require('path');
 
 module.exports = [

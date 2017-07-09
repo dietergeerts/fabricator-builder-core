@@ -1,4 +1,4 @@
-const extractBaseUrl = require('./fabricator-builder/extract-base-url');
+const extractBaseUrl = require('./extract-base-url');
 
 const assign = require('lodash/assign');
 const get = require('lodash/get');
@@ -18,13 +18,17 @@ const PAGE_TYPE = {
     }[path.split('/')[0]] || PAGE_TYPE.INDEX)
 };
 
-module.exports = function render(locals) {
-    return locals.faviconsManifestRx.first()
-        .combineLatest(locals.assetsManifestRx.first())
-        .map(([faviconsManifest, assetsManifest]) =>
-            renderLayout(collectData(locals, faviconsManifest, assetsManifest), locals))
-        .toPromise();
+module.exports = function renderPage(locals) {
+    return '<h1>LOL</h1>';
 };
+
+// module.exports = function renderPage(locals) {
+//     return locals.faviconsManifestRx.first()
+//         .combineLatest(locals.assetsManifestRx.first())
+//         .map(([faviconsManifest, assetsManifest]) =>
+//             renderLayout(collectData(locals, faviconsManifest, assetsManifest), locals))
+//         .toPromise();
+// };
 
 function collectData(locals, faviconsManifest, assetsManifest) {
     const BASE_URL = extractBaseUrl(locals.path);
@@ -43,7 +47,7 @@ function collectData(locals, faviconsManifest, assetsManifest) {
 }
 
 function renderLayout(DATA, locals) {
-    return require('./layouts/default.hbs')(Object.assign({}, DATA, {VIEW: renderView(DATA, locals)}));
+    return require('../layouts/default.hbs')(Object.assign({}, DATA, {VIEW: renderView(DATA, locals)}));
 }
 
 function renderView(DATA, locals) {
@@ -55,13 +59,13 @@ function renderView(DATA, locals) {
 }
 
 function renderIndexView(DATA, locals) {
-    return require('./views/index.hbs')(Object.assign({}, DATA, {VIEW: locals.getIndex()}));
+    return require('../views/index.hbs')(Object.assign({}, DATA, {VIEW: locals.getIndex()}));
 }
 
 function renderMaterialsView(DATA, locals) {
     const MATERIAL_GROUP = locals.path.split('/')[1];
 
-    return require('./views/materials.hbs')(Object.assign({}, DATA, {
+    return require('../views/materials.hbs')(Object.assign({}, DATA, {
         MATERIAL_GROUP: MATERIAL_GROUP,
         MATERIALS: MATERIALS[MATERIAL_GROUP].map(locals.getMaterial.bind(null, MATERIAL_GROUP)),
     }));

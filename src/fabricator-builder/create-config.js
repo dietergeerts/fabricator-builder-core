@@ -1,3 +1,5 @@
+const createOptions = require('./create-options');
+
 const path = require('path');
 const assign = require('lodash/assign');
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
@@ -6,11 +8,10 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const webpack = require('webpack');
 const Rx = require('rxjs/Rx');
 
-module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
+module.exports = function createConfig(options) {
 
-    options = assign({
-        projectPath: path.resolve(__dirname),
-        outputPath: path.resolve(__dirname, './dist'),
+    const settings = createOptions({
+        outputDir: 'dist',
         outputPublicPath: '',
         materialsDir: './test/fixtures/materials',
         faviconsWebpackPlugin: null,
@@ -28,34 +29,37 @@ module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
         }),
     }, options);
 
+    const projectPath = process.cwd();
+    const outputPath = path.resolve(projectPath, settings.outputDir);
+
     const faviconsManifestRx = new Rx.ReplaySubject(1);
-    options.faviconsWebpackPlugin
-        ? options.faviconsWebpackPlugin.on('done', (manifest) => faviconsManifestRx.next(manifest))
+    settings.faviconsWebpackPlugin
+        ? settings.faviconsWebpackPlugin.on('done', (manifest) => faviconsManifestRx.next(manifest))
         : faviconsManifestRx.next(null);
 
     const assetsManifestRx = new Rx.ReplaySubject(1);
-    options.webpackAssetsManifest
-        ? options.webpackAssetsManifest.on('done', (manifest) => assetsManifestRx.next(manifest))
+    settings.webpackAssetsManifest
+        ? settings.webpackAssetsManifest.on('done', (manifest) => assetsManifestRx.next(manifest))
         : assetsManifestRx.next(null);
 
     return {
         target: 'node',
-        context: path.resolve(__dirname, './src'),
+        context: path.resolve(__dirname, './../'),
         entry: {
-            'fabricator-builder': './fabricator-builder.js',
+            'fabricator-builder': './fabricator-builder/render-page.js',
             'fabricator': './fabricator.js'
         },
         output: {
             filename: '[name].[hash].js',
-            path: options.outputPath,
-            publicPath: options.outputPublicPath,
+            path: outputPath,
+            publicPath: settings.outputPublicPath,
             libraryTarget: 'umd'
             // TODO: Check issues for multi-config dev-server support with multiple public paths:
             // Until this is fixed, dev server will not work, as the first public path is taken!
             // https://github.com/webpack/webpack-dev-server/issues/641
             // https://github.com/webpack/webpack-dev-middleware/pull/187
         },
-        resolve: {alias: {project: options.projectPath}},
+        resolve: {alias: {project: projectPath}},
         module: {
             rules: [
                 {test: /\.hbs$/, loader: 'handlebars-loader'},
@@ -65,7 +69,7 @@ module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
         plugins: [
             new ExtractTextPlugin('[name].[hash].css'),
             new webpack.DefinePlugin({
-                __MATERIALS_PATH__: JSON.stringify(path.resolve(options.projectPath, options.materialsDir))
+                __MATERIALS_PATH__: JSON.stringify(path.resolve(projectPath, settings.materialsDir))
             }),
             new StaticSiteGeneratorPlugin({
                 entry: 'fabricator-builder',
@@ -74,8 +78,8 @@ module.exports = function fabricatorBuilderWebpackConfigCreator(options) {
                 locals: {
                     faviconsManifestRx: faviconsManifestRx,
                     assetsManifestRx: assetsManifestRx,
-                    getIndex: options.getIndex,
-                    getMaterial: options.getMaterial,
+                    getIndex: settings.getIndex,
+                    getMaterial: settings.getMaterial,
                 }
             })
         ]
