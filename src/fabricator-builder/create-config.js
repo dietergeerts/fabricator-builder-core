@@ -12,6 +12,7 @@ module.exports = function createConfig(options) {
 
     const settings = createOptions({
         outputDir: 'dist',
+
         outputPublicPath: '',
         materialsDir: './test/fixtures/materials',
         faviconsWebpackPlugin: null,

@@ -47,7 +47,7 @@ function collectData(locals, faviconsManifest, assetsManifest) {
 }
 
 function renderLayout(DATA, locals) {
-    return require('../layouts/default.hbs')(Object.assign({}, DATA, {VIEW: renderView(DATA, locals)}));
+    return require('./layouts/fabricator.hbs')(Object.assign({}, DATA, {VIEW: renderView(DATA, locals)}));
 }
 
 function renderView(DATA, locals) {
