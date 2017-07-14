@@ -8,6 +8,7 @@
 [![npm](https://img.shields.io/npm/dt/%40fabricator-builder%2Fcore.svg)](https://www.npmjs.com/package/fabricator-builder-core)
 [![npm](https://img.shields.io/npm/l/%40fabricator-builder%2Fcore.svg)](https://www.npmjs.com/package/fabricator-builder-core)
 [![npm (scoped)](https://img.shields.io/npm/v/@fabricator-builder/core.svg)](https://www.npmjs.com/package/fabricator-builder-core)
+[![node](https://img.shields.io/node/v/@fabricator-builder/core.svg)](https://www.npmjs.com/package/fabricator-builder-core)
 
 The core for building toolkits with the help of Webpack
 
