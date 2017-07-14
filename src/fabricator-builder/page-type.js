@@ -1,7 +1,0 @@
-module.exports = {
-    INDEX: 'INDEX',
-    MATERIALS: 'MATERIALS',
-    MATERIAL: 'MATERIAL',
-    TEMPLATES: 'TEMPLATES',
-    TEMPLATE: 'TEMPLATE',
-};

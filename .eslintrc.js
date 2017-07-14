@@ -16,18 +16,17 @@ module.exports = {
     ],
     rules: {
         'comma-dangle': ["error", "always-multiline"],
+        'filenames/match-regex': [2, '^[a-z-\.]+$'],
         'fp/no-nil': 0,
         'fp/no-throw': 0,
         'fp/no-unused-expression': 0,
         'no-use-extend-native/no-use-extend-native': 2,
+        'unicorn/explicit-length-check': 0,
     },
     overrides: [
         {
             files: ['src/**/*.js'],
             excludedFiles: 'src/**/*.test.js',
-            rules: {
-                'filenames/match-exported': [2, 'kebab'],
-            },
         },
         {
             files: ['src/**/*.test.js'],
@@ -40,7 +39,6 @@ module.exports = {
                 'chai-expect/missing-assertion': 2,
                 'chai-expect/no-inner-compare': 2,
                 'chai-expect/terminating-properties': 1,
-                'filenames/match-regex': [2, '^[a-z-]+.test$'],
                 'mocha/no-exclusive-tests': 2,
             },
         },
@@ -49,7 +47,7 @@ module.exports = {
             env: {browser: true},
         },
         {
-            files: ['src/fabricator-builder/**/*.js'],
+            files: ['src/fabricator-builder/**/*.js', '*.js'],
             env: {node: true},
             rules: {
                 'fp/no-mutation': ['error', {'commonjs': true}],
