@@ -10,7 +10,7 @@
     "test:default": "rimraf dist && webpack --config ./test/webpack.config.default.js",
     "test:favicon": "rimraf dist && webpack --config ./test/webpack.config.favicon.js",
     "test:assets": "rimraf dist && webpack --config ./test/webpack.config.assets.js",
-    "test": "cross-env NODE_ENV=test npm run test:unit",
+    "test": "cross-env NODE_ENV=test BABEL_CACHE_PATH=babel.cache.json npm run test:unit",
     "test:unit": "nyc --include src/**/*.js --all --require babel-register mocha src/**/*.test.js",
     "lint": "eslint --ignore-path .gitignore ./",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
