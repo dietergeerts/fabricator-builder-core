@@ -10,10 +10,20 @@
     "test:default": "rimraf dist && webpack --config ./test/webpack.config.default.js",
     "test:favicon": "rimraf dist && webpack --config ./test/webpack.config.favicon.js",
     "test:assets": "rimraf dist && webpack --config ./test/webpack.config.assets.js",
-    "test": "cross-env NODE_ENV=test BABEL_CACHE_PATH=babel.cache.json npm run test:unit",
-    "test:unit": "nyc --include src/**/*.js --all --require babel-register mocha src/**/*.test.js",
+    "test": "cross-env NODE_ENV=test BABEL_CACHE_PATH=babel.cache.json nyc mocha src/**/*.test.js",
     "lint": "eslint --ignore-path .gitignore ./",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
+  },
+  "nyc": {
+    "require": [
+      "babel-register"
+    ],
+    "sourceMap": false,
+    "instrument": false,
+    "include": [
+      "src/**/*.js"
+    ],
+    "all": true
   },
   "repository": {
     "type": "git",
@@ -52,6 +62,7 @@
   },
   "devDependencies": {
     "babel-cli": "6.24.1",
+    "babel-plugin-istanbul": "4.1.4",
     "babel-preset-env": "1.6.0",
     "chai": "4.0.2",
     "chai-as-promised": "7.0.0",
