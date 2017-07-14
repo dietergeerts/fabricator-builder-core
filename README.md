@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/dietergeerts/fabricator-builder-core.svg?branch=master)](https://travis-ci.org/dietergeerts/fabricator-builder-core)
 [![Coverage Status](https://coveralls.io/repos/github/dietergeerts/fabricator-builder-core/badge.svg?branch=master)](https://coveralls.io/github/dietergeerts/fabricator-builder-core?branch=master)
+[![Code Climate](https://codeclimate.com/github/dietergeerts/fabricator-builder-core.png)](https://codeclimate.com/github/dietergeerts/fabricator-builder-core)
 [![Dependencies Status](https://david-dm.org/dietergeerts/fabricator-builder-core/status.svg)](https://david-dm.org/dietergeerts/fabricator-builder-core)
 [![npm version](https://badge.fury.io/js/%40fabricator-builder%2Fcore.svg)](https://badge.fury.io/js/%40fabricator-builder%2Fcore)
 [![npm](https://img.shields.io/npm/dt/%40fabricator-builder%2Fcore.svg)](https://www.npmjs.com/package/fabricator-builder-core)
