@@ -1,4 +1,5 @@
-const extractBaseUrl = require('./extract-base-url');
+
+const extractBaseUrl = require('./pages').extractBaseUrl;
 
 const assign = require('lodash/assign');
 const get = require('lodash/get');
@@ -18,9 +19,9 @@ const PAGE_TYPE = {
     }[path.split('/')[0]] || PAGE_TYPE.INDEX)
 };
 
-module.exports = function renderPage(locals) {
+export default function renderPage(locals) {
     return '<h1>LOL</h1>';
-};
+}
 
 // module.exports = function renderPage(locals) {
 //     return locals.faviconsManifestRx.first()
@@ -59,13 +60,13 @@ function renderView(DATA, locals) {
 }
 
 function renderIndexView(DATA, locals) {
-    return require('../views/index.hbs')(Object.assign({}, DATA, {VIEW: locals.getIndex()}));
+    return require('./views/index.hbs')(Object.assign({}, DATA, {VIEW: locals.getIndex()}));
 }
 
 function renderMaterialsView(DATA, locals) {
     const MATERIAL_GROUP = locals.path.split('/')[1];
 
-    return require('../views/materials.hbs')(Object.assign({}, DATA, {
+    return require('./views/material.hbs')(Object.assign({}, DATA, {
         MATERIAL_GROUP: MATERIAL_GROUP,
         MATERIALS: MATERIALS[MATERIAL_GROUP].map(locals.getMaterial.bind(null, MATERIAL_GROUP)),
     }));

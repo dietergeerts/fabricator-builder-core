@@ -16,6 +16,9 @@ const config = {
 // if you are using `runtime` in your helpers, they should get the same Handlebars instance
 require.cache[require.resolve('handlebars/runtime')] = {exports: Handlebars};
 
+// load helpers library, see https://github.com/helpers/handlebars-helpers
+require('handlebars-helpers')();
+
 // load helpers
 Handlebars.registerHelper('helperMissing', function() {
     if(arguments.length === 1) {

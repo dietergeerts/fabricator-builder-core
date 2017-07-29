@@ -1,0 +1,8 @@
+<div id="materials-sidebar" style="padding-top: 4rem;"
+     class="ui small left {{#if THEME.INVERTED}}inverted{{/if}} {{THEME.COLOR}} vertical sidebar menu">
+  {{> sidebar-sub items=MATERIALS url=(append BASE_URL 'materials/') blank=false}}
+</div>
+<div id="templates-sidebar" style="padding-top: 4rem;"
+     class="ui small left {{#if THEME.INVERTED}}inverted{{/if}} {{THEME.COLOR}} vertical sidebar menu">
+  {{> sidebar-sub items=TEMPLATES url=(append BASE_URL 'templates/') blank=true}}
+</div>

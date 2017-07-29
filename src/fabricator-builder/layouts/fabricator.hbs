@@ -3,21 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!--<title>{{PACKAGE.name}} v{{PACKAGE.version}}</title>-->
-  <!--{{{FAVICON_HTML}}}-->
-  <!--<link rel="stylesheet" href="{{BASE_URL}}{{FABRICATOR_STYLES}}">-->
-  <!--{{#each STYLES_ASSETS}}-->
-    <!--<link rel="stylesheet" href="{{../BASE_URL}}{{this}}">-->
-  <!--{{/each}}-->
+  <title>{{PACKAGE.name}} v{{PACKAGE.version}}</title>
+  {{{FAVICON}}}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css"
+        integrity="sha256-5+W3JHnvGYIJkVxUBsw+jBi9+pOlu9enPX3vZapXj5M=" crossorigin="anonymous">
 </head>
 <body>
-FABRICATOR PAGE
-<!--<body class="f-body">-->
-<!--{{> ../partials/menu}}-->
-<!--{{{VIEW}}}-->
-<!--<script src="{{BASE_URL}}{{FABRICATOR_SCRIPT}}"></script>-->
-<!--{{#each SCRIPT_ASSETS}}-->
-  <!--<script src="{{../BASE_URL}}{{this}}"></script>-->
-<!--{{/each}}-->
+{{> ../partials/menu}}
+<div class="pushable">
+  {{> ../partials/sidebars}}
+  <div class="pusher" style="display: flex; min-height: 100vh; flex-direction: column;">
+    <div style="flex: none;">
+      {{> ../partials/header}}
+    </div>
+    <div style="flex: auto;">
+      {{{VIEW}}}
+    </div>
+    <div style="flex: none;">
+      {{> ../partials/footer}}
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"
+        integrity="sha256-97Q90i72uoJfYtVnO2lQcLjbjBySZjLHx50DYhCBuJo=" crossorigin="anonymous"></script>
+<script>
+  const $mainContent = $('.pushable');
+  const $materialsNav = $('#materials-nav');
+  const $templatesNav = $('#templates-nav');
+  const $materialsSidebar = $('#materials-sidebar');
+  const $templatesSidebar = $('#templates-sidebar');
+
+  setupSidebar($materialsNav, $materialsSidebar, $mainContent, $templatesSidebar);
+  setupSidebar($templatesNav, $templatesSidebar, $mainContent, $materialsSidebar);
+
+  function setupSidebar($nav, $sidebar, $context, $other) {
+    $sidebar.sidebar({
+      context: $context,
+      transition: 'overlay',
+      dimPage: false,
+      onVisible: () => $nav.addClass('active'),
+      onHide: () => $nav.removeClass('active'),
+    });
+    $nav.click(() => {
+      $other.sidebar('hide');
+      $sidebar.sidebar('show');
+    });
+  }
+</script>
 </body>
 </html>

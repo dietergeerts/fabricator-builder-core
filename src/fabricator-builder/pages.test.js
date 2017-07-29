@@ -1,85 +1,58 @@
-import {expect} from 'chai';
-import {PAGE_TYPE, LAYOUT, getPageTypeForPath, getLayoutForPageType} from './pages';
-import fabricatorLayout from './layouts/fabricator.hbs';
-import templateLayout from './layouts/template.hbs';
+const expect = require('chai').expect;
+const forEach = require('lodash/fp/forEach');
+const describeEnumObject = require('./test-helpers').describeEnumObject;
+const PAGE_TYPE = require('./pages').PAGE_TYPE;
+const LAYOUT = require('./pages').LAYOUT;
+const VIEW = require('./pages').VIEW;
+const getPageTypeForPath = require('./pages').getPageTypeForPath;
+const getLayoutForPageType = require('./pages').getLayoutForPageType;
+const getViewForPageType = require('./pages').getViewForPageType;
+const extractBaseUrl = require('./pages').extractBaseUrl;
+const fabricatorLayout = require('./layouts/fabricator.hbs');
+const materialLayout = require('./layouts/material.hbs');
+const templateLayout = require('./layouts/template.hbs');
+const materialView = require('./views/material.hbs');
+const templateView = require('./views/template.hbs');
+const indexView = require('./views/index.hbs');
 
-describe('PAGE_TYPE', () => {
-
-    const pageTypes = [
-        'INDEX',
-        'MATERIALS',
-        'MATERIAL',
-        'TEMPLATES',
-        'TEMPLATE',
-    ];
-
-    it('should have the defined values', () => {
-        pageTypes.forEach(value => {
-            expect(PAGE_TYPE).to.haveOwnProperty(value, value,
-                `The PAGE_TYPE enum should have value ${value}`);
-        });
-    });
-
-    it('should not have other values', () => {
-        expect(Object.keys(PAGE_TYPE).length).to.be.equal(5,
-            'The PAGE_TYPE enum should have only the defined values');
-    });
+describeEnumObject('PAGE_TYPE', PAGE_TYPE, {
+    'INDEX': 'INDEX',
+    'MATERIAL': 'MATERIAL',
+    'TEMPLATE': 'TEMPLATE',
 });
 
-describe('LAYOUT', () => {
+describeEnumObject('LAYOUT', LAYOUT, {
+    FABRICATOR: fabricatorLayout,
+    MATERIAL: materialLayout,
+    TEMPLATE: templateLayout,
+});
 
-    const layouts = {
-        FABRICATOR: fabricatorLayout,
-        TEMPLATE: templateLayout,
-    };
-
-    it('should have the defined values', () => {
-        Object.keys(layouts).forEach(key => {
-            expect(LAYOUT).to.haveOwnProperty(key, layouts[key],
-                `The LAYOUT enum should have value ${key}`);
-        });
-    });
-
-    it('should not have other values', () => {
-        expect(Object.keys(LAYOUT).length).to.be.equal(2,
-            'The LAYOUT enum should have only the defined values');
-    });
+describeEnumObject('VIEW', VIEW, {
+    INDEX: indexView,
+    MATERIAL: materialView,
+    TEMPLATE: templateView,
 });
 
 describe(getPageTypeForPath.name, () => {
 
     const paths = {
         '': PAGE_TYPE.INDEX,
-        'index.html': PAGE_TYPE.INDEX,
-        'materials': PAGE_TYPE.MATERIALS,
-        'materials/': PAGE_TYPE.MATERIALS,
-        'materials/group': PAGE_TYPE.MATERIALS,
-        'materials/material-B.html': PAGE_TYPE.MATERIAL,
-        'materials/group/material-B.html': PAGE_TYPE.MATERIAL,
-        'templates': PAGE_TYPE.TEMPLATES,
-        'templates/': PAGE_TYPE.TEMPLATES,
-        'templates/group': PAGE_TYPE.TEMPLATES,
-        'templates/template-A.html': PAGE_TYPE.TEMPLATE,
-        'templates/group/template-A.html': PAGE_TYPE.TEMPLATE,
+        'materials/material': PAGE_TYPE.MATERIAL,
+        'materials/group/material': PAGE_TYPE.MATERIAL,
+        'templates/template': PAGE_TYPE.TEMPLATE,
+        'templates/group/template': PAGE_TYPE.TEMPLATE,
         '/': PAGE_TYPE.INDEX,
-        '/index.html': PAGE_TYPE.INDEX,
-        '/materials': PAGE_TYPE.MATERIALS,
-        '/materials/': PAGE_TYPE.MATERIALS,
-        '/materials/group': PAGE_TYPE.MATERIALS,
-        '/materials/material-B.html': PAGE_TYPE.MATERIAL,
-        '/materials/group/material-B.html': PAGE_TYPE.MATERIAL,
-        '/templates': PAGE_TYPE.TEMPLATES,
-        '/templates/': PAGE_TYPE.TEMPLATES,
-        '/templates/group': PAGE_TYPE.TEMPLATES,
-        '/templates/template-A.html': PAGE_TYPE.TEMPLATE,
-        '/templates/group/template-A.html': PAGE_TYPE.TEMPLATE,
+        '/materials/material': PAGE_TYPE.MATERIAL,
+        '/materials/group/material': PAGE_TYPE.MATERIAL,
+        '/templates/template': PAGE_TYPE.TEMPLATE,
+        '/templates/group/template': PAGE_TYPE.TEMPLATE,
     };
 
     it('should correctly give us the PAGE_TYPE for the path', () => {
-        Object.keys(paths).forEach(key => {
-            expect(getPageTypeForPath(key)).to.equal(paths[key],
-                `'${key}' should give us PAGE_TYPE '${paths[key]}'`);
-        });
+        forEach.convert({cap: false})((value, key) => {
+            expect(getPageTypeForPath(key)).to.equal(value,
+                `'${key}' should give us PAGE_TYPE '${value}'`);
+        })(paths);
     });
 });
 
@@ -87,16 +60,56 @@ describe(getLayoutForPageType.name, () => {
 
     const pageTypeLayouts = {
         [PAGE_TYPE.INDEX]: LAYOUT.FABRICATOR,
-        [PAGE_TYPE.MATERIALS]: LAYOUT.FABRICATOR,
         [PAGE_TYPE.MATERIAL]: LAYOUT.FABRICATOR,
-        [PAGE_TYPE.TEMPLATES]: LAYOUT.FABRICATOR,
         [PAGE_TYPE.TEMPLATE]: LAYOUT.TEMPLATE,
     };
 
-    it('should correctly give us the layout for the PAGE_TYPE', () => {
-        Object.keys(pageTypeLayouts).forEach(key => {
-            expect(getLayoutForPageType(key)).to.equal(pageTypeLayouts[key],
-                `PAGE_TYPE '${key}' should give us layout '${pageTypeLayouts[key]}'`);
+    it('should correctly give us the LAYOUT for the PAGE_TYPE', () => {
+        forEach.convert({cap: false})((value, key) => {
+            expect(getLayoutForPageType(key)).to.equal(value,
+                `PAGE_TYPE '${key}' should give us LAYOUT '${value}'`);
+        })(pageTypeLayouts);
+    });
+});
+
+describe(getViewForPageType.name, () => {
+
+    const pageTypeViews = {
+        [PAGE_TYPE.INDEX]: VIEW.INDEX,
+        [PAGE_TYPE.MATERIAL]: VIEW.MATERIAL,
+        [PAGE_TYPE.TEMPLATE]: VIEW.TEMPLATE,
+    };
+
+    it('should correctly give us the VIEW for the PAGE_TYPE', () => {
+        forEach.convert({cap: false})((value, key) => {
+            expect(getViewForPageType(key)).to.equal(value,
+                `PAGE_TYPE '${key}' should give us VIEW '${value}'`);
+        })(pageTypeViews);
+    });
+});
+
+describe(extractBaseUrl.name, () => {
+
+    const paths = {
+        '': './',
+        'materials': './../',
+        'materials/': './../',
+        'index.html': './',
+        'materials/index.html': './../',
+        '/': './',
+        '/materials': './../',
+        '/materials/': './../',
+        '/index.html': './',
+        '/materials/index.html': './../',
+    };
+
+    it('should return a relative url prefix', () => {
+        expect(Object.keys(paths).map(extractBaseUrl)).to.all.match(/^.\//);
+    });
+
+    it('should correctly go up the levels that the path is deep', () => {
+        Object.keys(paths).forEach(key => {
+            expect(extractBaseUrl(key)).to.equal(paths[key], `'${key}' should extract to '${paths[key]}'`);
         });
     });
 });

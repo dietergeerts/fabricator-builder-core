@@ -63,6 +63,7 @@ module.exports = function createConfig(options) {
         resolve: {alias: {project: projectPath}},
         module: {
             rules: [
+                {test: /\.js$/, loader: 'babel-loader'},
                 {test: /\.hbs$/, loader: 'handlebars-loader'},
                 {test: /\.scss$/, use: ExtractTextPlugin.extract({use: ['css-loader', 'sass-loader']})}
             ]

@@ -29,7 +29,7 @@ module.exports = {
             excludedFiles: 'src/**/*.test.js',
         },
         {
-            files: ['src/**/*.test.js'],
+            files: ['src/**/*.test.js', 'src/**/test-helpers.js'],
             env: {mocha: true},
             plugins: [
                 'chai-expect',

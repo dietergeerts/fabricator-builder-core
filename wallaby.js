@@ -1,4 +1,4 @@
-module.exports = function (wallaby) {
+module.exports = function () {
     return {
         files: [
             {pattern: 'src/**/*.js'},
@@ -11,9 +11,6 @@ module.exports = function (wallaby) {
         testFramework: 'mocha',
         env: {
             type: 'node',
-        },
-        compilers: {
-            '**/*.js': wallaby.compilers.babel(),
         },
     };
 };

@@ -1,0 +1,20 @@
+<div class="ui {{THEME.COLOR}} mini fixed {{#if THEME.INVERTED}}inverted{{/if}} labeled icon menu">
+  <a class="item" href="{{BASE_URL}}">
+    <i class="home icon"></i>
+    Home
+  </a>
+  <a class="item" id="materials-nav">
+    <i class="cubes icon"></i>
+    Materials
+  </a>
+  <a class="item" id="templates-nav">
+    <i class="file icon"></i>
+    Templates
+  </a>
+  {{#if PACKAGE.homepage}}
+    <a class="item right" href="{{PACKAGE.homepage}}" target="_blank">
+      <i class="{{REPO_HOSTING}} icon"></i>
+      Source
+    </a>
+  {{/if}}
+</div>

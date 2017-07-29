@@ -12,7 +12,8 @@
     "test:assets": "rimraf dist && webpack --config ./test/webpack.config.assets.js",
     "test": "cross-env NODE_ENV=test BABEL_CACHE_PATH=babel.cache.json nyc mocha src/**/*.test.js",
     "lint": "eslint --ignore-path .gitignore ./",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "tst": "rimraf dist && webpack --config ./test/webpack.config.plugin.js"
   },
   "nyc": {
     "require": [
@@ -35,14 +36,15 @@
     "toolkit",
     "webpack"
   ],
-  "author": "Dieter Geerts <dieter@dworks.be>",
+  "author": "Dieter Geerts <dieter@dworks.be> (http://www.linkedin.com/in/dieteratwork/)",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
     "url": "https://github.com/dietergeerts/fabricator-builder-core/issues"
   },
   "homepage": "https://github.com/dietergeerts/fabricator-builder-core#readme",
   "directories": {
-    "test": "test"
+    "test": "test",
+    "lib": "src"
   },
   "engines": {
     "node": ">=4"
@@ -51,10 +53,12 @@
     "css-loader": "0.28.3",
     "extract-text-webpack-plugin": "2.1.0",
     "handlebars": "4.0.10",
+    "handlebars-helpers": "^0.9.6",
     "handlebars-loader": "1.5.0",
     "jsdom": "9.12.0",
     "lodash": "4.17.4",
     "node-sass": "4.5.3",
+    "parent-package": "^0.1.1",
     "rxjs": "5.4.0",
     "sass-loader": "6.0.5",
     "static-site-generator-webpack-plugin": "3.4.1",
@@ -62,9 +66,10 @@
   },
   "devDependencies": {
     "babel-cli": "6.24.1",
+    "babel-loader": "^7.1.1",
     "babel-plugin-istanbul": "4.1.4",
     "babel-preset-env": "1.6.0",
-    "babel-register": "6.24.1",
+    "babel-register": "^6.24.1",
     "chai": "4.0.2",
     "chai-as-promised": "7.0.0",
     "coveralls": "2.13.1",

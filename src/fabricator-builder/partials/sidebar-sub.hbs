@@ -1,0 +1,17 @@
+{{#each items}}
+  {{#if this.items}}
+    <div class="item">
+      <div class="header">
+        {{this.name}}
+      </div>
+      <div class="menu">
+        {{> sidebar-sub items=this.items url=(append ../url (append this.name '/')) blank=../blank}}
+      </div>
+    </div>
+  {{else}}
+    <a class="item" href="{{../url}}{{this.name}}" {{#if ../blank}}target="_blank"{{/if}}>
+      <i class="angle right icon"></i>
+      {{this.name}}
+    </a>
+  {{/if}}
+{{/each}}
