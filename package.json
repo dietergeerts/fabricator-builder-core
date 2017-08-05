@@ -12,7 +12,7 @@
     "test:assets": "rimraf dist && webpack --config ./test/webpack.config.assets.js",
     "test": "cross-env NODE_ENV=test BABEL_CACHE_PATH=babel.cache.json nyc mocha src/**/*.test.js",
     "lint": "eslint --ignore-path .gitignore ./",
-    "coverage": "nyc report --reporter=lcov | codecov",
+    "coverage": "nyc report --reporter=lcov > coverage.lcov && codecov",
     "tst": "rimraf dist && webpack --config ./test/webpack.config.plugin.js"
   },
   "nyc": {
