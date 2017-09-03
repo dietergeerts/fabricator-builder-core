@@ -1,5 +1,6 @@
 // TODO: Extract plugin once core is done, so core can still be used with other systems.
 const Rx = require('rxjs');
+const path = require('path');
 const render = require('./assembler').render;
 const addAsset = require('./webpack-utils').addAsset;
 const getBaseDir = require('./webpack-utils').getBaseDir;
@@ -15,22 +16,6 @@ FabricatorBuilderPlugin.prototype.apply = (compiler) => {
         {name: 'dashboard'},
         {name: 'profile'},
     ];
-    const materials = [
-        {
-            name: 'atoms',
-            items: [
-                {name: 'colors'},
-                {name: 'button'},
-                {name: 'input'},
-            ],
-        },
-        {
-            name: 'molecules',
-            items: [
-                {name: 'heading'},
-            ],
-        },
-    ];
     const paths = [
         '',
         'materials/atoms/colors',
@@ -41,9 +26,12 @@ FabricatorBuilderPlugin.prototype.apply = (compiler) => {
         'templates/profile',
     ];
 
+    var materials;
     var favicon;
 
     compiler.plugin('compilation', (compilation) => {
+
+
         compilation.plugin('favicons-webpack-plugin-after-make', (data, callback) => {
 
             favicon = data.html;
@@ -52,6 +40,7 @@ FabricatorBuilderPlugin.prototype.apply = (compiler) => {
     });
 
     compiler.plugin('emit', (compilation, callback) => {
+        materials = gatherMaterials();
 
         Rx.Observable
             .from(paths)
@@ -62,3 +51,36 @@ FabricatorBuilderPlugin.prototype.apply = (compiler) => {
 };
 
 module.exports = FabricatorBuilderPlugin;
+
+function gatherMaterials() {
+
+    const dir = path.resolve(__dirname, '../../test/materials');
+    console.log(dir);
+
+    const context = require.context(dir, true, /\.md$/);
+    const materials = {};
+
+    context.keys().forEach((key) => {
+        materials[key] = context(key);
+    });
+
+    console.log(materials);
+
+    return materials;
+    // [
+    //     {
+    //         name: 'atoms',
+    //         items: [
+    //             {name: 'colors'},
+    //             {name: 'button'},
+    //             {name: 'input'},
+    //         ],
+    //     },
+    //     {
+    //         name: 'molecules',
+    //         items: [
+    //             {name: 'heading'},
+    //         ],
+    //     },
+    // ];
+}
