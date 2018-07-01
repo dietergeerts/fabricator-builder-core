@@ -59,3 +59,9 @@ typings/
 
 /dist/
 /babel.cache.json
+
+# Custom ignore patterns
+
+## NPM has too many bugs around lock files, so don't commit them.
+## Instead, use exact versions, which is still the best way for it.
+package-lock.json
